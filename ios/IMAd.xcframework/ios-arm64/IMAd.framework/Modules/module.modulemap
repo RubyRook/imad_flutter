@@ -1,0 +1,11 @@
+framework module IMAd {
+  umbrella header "IMAd.h"
+
+  export *
+  module * { export * }
+}
+
+module IMAd.Swift {
+  header "IMAd-Swift.h"
+  requires objc
+}

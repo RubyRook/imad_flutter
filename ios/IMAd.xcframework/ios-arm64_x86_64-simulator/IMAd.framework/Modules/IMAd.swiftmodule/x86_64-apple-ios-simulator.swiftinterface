@@ -1,0 +1,248 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.8.1 (swiftlang-5.8.0.124.5 clang-1403.0.22.11.100)
+// swift-module-flags: -target x86_64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name IMAd
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import AdSupport
+import AppTrackingTransparency
+import CoreGraphics
+import EventKitUI
+import Foundation
+@_exported import IMAd
+import MediaPlayer
+import PhotosUI
+import SafariServices
+import Swift
+import UIKit
+import WebKit
+import _Concurrency
+import _StringProcessing
+@objc @_inheritsConvenienceInitializers open class EngageBannerModel : ObjectiveC.NSObject {
+  public func getWidth() -> Swift.Int
+  public func getHeight() -> Swift.Int
+  public func getUrl() -> Swift.String
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class AdUnit : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  @objc deinit
+}
+public enum CacheExpiry {
+  case never
+  case seconds(Foundation.TimeInterval)
+  case date(Foundation.Date)
+}
+open class Cache<T> where T : Foundation.NSCoding {
+  final public let name: Swift.String
+  final public let cacheDirectory: Foundation.URL
+  public typealias CacheBlockClosure = (T, CacheExpiry) -> Swift.Void
+  public typealias ErrorClosure = (Foundation.NSError?) -> Swift.Void
+  public init(name: Swift.String, directory: Foundation.URL?, fileProtection: Swift.String? = nil) throws
+  convenience public init(name: Swift.String) throws
+  open func setObject(forKey key: Swift.String, cacheBlock: (@escaping Cache<T>.CacheBlockClosure, @escaping Cache<T>.ErrorClosure) -> Swift.Void, completion: @escaping (T?, Swift.Bool, Foundation.NSError?) -> Swift.Void)
+  open func object(forKey key: Swift.String, returnExpiredObjectIfPresent: Swift.Bool = false) -> T?
+  open func allObjects(includeExpired: Swift.Bool = false) -> [T]
+  open func isOnMemory(forKey key: Swift.String) -> Swift.Bool
+  open func setObject(_ object: T, forKey key: Swift.String, expires: CacheExpiry = .never)
+  open func removeObject(forKey key: Swift.String)
+  open func removeAllObjects()
+  open func removeExpiredObjects()
+  open subscript(key: Swift.String) -> T? {
+    get
+    set(newValue)
+  }
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class IMAd : ObjectiveC.NSObject {
+  @objc public func initIMAdSDK() -> IMAd
+  @objc public func initIMAdSDK(configuration: SdkConfiguration) -> IMAd
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public enum ClickTagMode : Swift.Int {
+  case externalBrowser
+  case inAppBrowser
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc open class SdkConfiguration : ObjectiveC.NSObject {
+  @objc public init(clickTagMode: ClickTagMode)
+  public func getClickTagMode() -> ClickTagMode
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers open class IMAdTargetingProperties : ObjectiveC.NSObject {
+  @objc public static let IMATargetPropKey_Gender: Swift.String
+  @objc public static let IMATargetPropKey_Age: Swift.String
+  @objc public static let IMATargetPropKey_Birthday: Swift.String
+  @objc public static let IMATargetPropKey_Persona: Swift.String
+  @objc public static let IMATargetPropKey_Language: Swift.String
+  @objc public static let IMATargetPropKey_Latitude: Swift.String
+  @objc public static let IMATargetPropKey_Longtide: Swift.String
+  @objc public func setTargetingProperties(key: Swift.String, value: Swift.String)
+  @objc public func getPropertiseDictString() -> Swift.String
+  @objc deinit
+}
+@objc public protocol AdLoadCallback {
+  @objc func adReady(adUnit: AdUnit)
+  @objc func adFailed(zoneId: Swift.String, error: any Swift.Error)
+}
+@objc @_inheritsConvenienceInitializers open class AdTracking : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  @objc deinit
+}
+public protocol SFSafariWebCallback {
+  func safariViewControllerDidFinish()
+}
+@objc @_inheritsConvenienceInitializers open class SFSafariWeb : ObjectiveC.NSObject, SafariServices.SFSafariViewControllerDelegate {
+  public var safariCallback: (any SFSafariWebCallback)!
+  public func start(urlString: Swift.String, viewController: UIKit.UIViewController, safariCallback: any SFSafariWebCallback)
+  @objc public func safariViewControllerDidFinish(_ controller: SafariServices.SFSafariViewController)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class EngageAd : AdUnit {
+  @objc public func getAdView() -> UIKit.UIView?
+  @objc public func getZoneId() -> Swift.String?
+  @objc public func destroy()
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol EngageAdExpansionCallback {
+  @objc func getExpandedContainer() -> UIKit.UIView
+}
+@objc open class EngageAdConfiguration : ObjectiveC.NSObject {
+  @objc public init(availableArea: CoreFoundation.CGRect, expansionCallback: (any EngageAdExpansionCallback)? = nil)
+  public func getAvailableArea() -> CoreFoundation.CGRect?
+  public func getExpansionCallback() -> (any EngageAdExpansionCallback)?
+  @objc deinit
+}
+@objc public protocol AdEventCallback {
+  @objc optional func adDidExpand(engageAd: EngageAd)
+  @objc optional func adDidCancelExpand(engageAd: EngageAd)
+  @objc optional func adDidCloseExpanded(engageAd: EngageAd)
+  @objc optional func adActionWillBegin(engageAd: EngageAd)
+  @objc optional func adActionDidEnd(engageAd: EngageAd)
+  @objc optional func adActionWillLeaveApplication(engageAd: EngageAd?)
+  @objc optional func adDidBeginPreview(engageAd: EngageAd)
+  @objc optional func adDidEndPreview(engageAd: EngageAd)
+  @objc optional func adDidUnload(engageAd: EngageAd)
+  @objc optional func adWasClicked(engageAd: EngageAd)
+}
+@_inheritsConvenienceInitializers @objc public class IMAdEngage : ObjectiveC.NSObject {
+  @objc public var targetingProperties: IMAdTargetingProperties!
+  @objc public func initIMAdEngage(imadSDK: IMAd, publisherId: Swift.String) -> IMAdEngage
+  @objc public func setPremiumZone(premiumZoneId: Swift.String)
+  @objc public func load(zoneId: Swift.String, adLoadCallback: any AdLoadCallback, adEventCallback: any AdEventCallback, viewController: UIKit.UIViewController, config: EngageAdConfiguration? = nil)
+  @objc public func setAdRefreshInterval(newAdRefreshInterval: Swift.Int)
+  @objc public func destroy()
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class NativeVideoAd : AdUnit {
+  public func initNativeVideoAd(videoLocalFile: Foundation.URL, title: Swift.String, desc: Swift.String, advertiser: Swift.String, engageUrl: Swift.String, impression: [Swift.String], click: [Swift.String], stop: [Swift.String], start: [Swift.String], play25: [Swift.String], play50: [Swift.String], play75: [Swift.String], adTracking: AdTracking, zoneId: Swift.String, clickTagMode: ClickTagMode) -> NativeVideoAd
+  @objc public func getZoneId() -> Swift.String?
+  @objc public func getType() -> Swift.Int
+  @objc public func getTitle() -> Swift.String
+  @objc public func getDesc() -> Swift.String
+  @objc public func getAdvertiser() -> Swift.String
+  @objc public func destroy()
+  @objc public func clicked(viewController: UIKit.UIViewController)
+  @objc public func displayed()
+  @objc public func setVideoView(videoView: UIKit.UIView)
+  @objc public func pauseVideo()
+  @objc public func resumeVideo()
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension NativeVideoAd : SFSafariWebCallback {
+  public func safariViewControllerDidFinish()
+}
+@objc @_inheritsConvenienceInitializers open class NativeVideoCreativeDetailsModel : ObjectiveC.NSObject {
+  public func getInvitationBanner() -> NativeVideoInvitationBannerModel
+  public func getEngageBanner() -> EngageBannerModel
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class NativeVideoInvitationBannerModel : ObjectiveC.NSObject {
+  public func getAdTitle() -> Swift.String
+  public func getAdDesc() -> Swift.String
+  public func getAdvertiser() -> Swift.String
+  public func getAdvertiserIcon() -> Swift.String
+  public func getVideo() -> Swift.String
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class IMAdNativeVideo : ObjectiveC.NSObject {
+  @objc public var targetingProperties: IMAdTargetingProperties!
+  @objc public func initIMAdNativeVideo(imadSDK: IMAd) -> IMAdNativeVideo
+  @objc public func load(zoneId: Swift.String, adLoadCallback: any AdLoadCallback)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class NativeAd : AdUnit {
+  public func initNativeAd(title: Swift.String, desc: Swift.String, advertiser: Swift.String, engageUrl: Swift.String, thumbanil: Foundation.Data, portraitImage: Foundation.Data, landscapeImage: Foundation.Data, impression: [Swift.String], click: [Swift.String], adTracking: AdTracking, zoneId: Swift.String, clickTagMode: ClickTagMode) -> NativeAd
+  @objc public func getZoneId() -> Swift.String?
+  @objc public func getType() -> Swift.Int
+  @objc public func destroy()
+  @objc public func getTitle() -> Swift.String
+  @objc public func getDesc() -> Swift.String
+  @objc public func getAdvertiser() -> Swift.String
+  @objc public func getThumbnail() -> Foundation.Data
+  @objc public func getPortraitImage() -> Foundation.Data
+  @objc public func getLandscapeImage() -> Foundation.Data
+  @objc public func clicked(viewController: UIKit.UIViewController)
+  @objc public func displayed()
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension NativeAd : SFSafariWebCallback {
+  public func safariViewControllerDidFinish()
+}
+@objc @_inheritsConvenienceInitializers open class NativeAdCreativeDetailsModel : ObjectiveC.NSObject {
+  public func getInvitationBanner() -> NativeAdInvitationBannerModel
+  public func getEngageBanner() -> EngageBannerModel
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class NativeAdInvitationBannerModel : ObjectiveC.NSObject {
+  public func getAdTitle() -> Swift.String
+  public func getAdDesc() -> Swift.String
+  public func getAdvertiser() -> Swift.String
+  public func getAdvertiserImage() -> Swift.String
+  public func getThumbnailImage() -> Swift.String
+  public func getPortraitImage() -> Swift.String
+  public func getlandscapeImage() -> Swift.String
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class IMAdNative : ObjectiveC.NSObject {
+  @objc public var targetingProperties: IMAdTargetingProperties!
+  @objc public func initIMAdNative(imadSDK: IMAd) -> IMAdNative
+  @objc public func load(zoneId: Swift.String, adLoadCallback: any AdLoadCallback)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol VideoInterstitialAdLoadCallback {
+  @objc func adClosed()
+}
+@objc @_inheritsConvenienceInitializers open class VideoInterstitialAd : AdUnit {
+  @objc public func getZoneId() -> Swift.String?
+  @objc public func getType() -> Swift.Int
+  @objc public func destroy()
+  @objc public func show(viewController: UIKit.UIViewController)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class IMAdVideoInterstitial : ObjectiveC.NSObject {
+  @objc public var targetingProperties: IMAdTargetingProperties!
+  @objc public func initIMAdVideoInterstitial(imadSDK: IMAd) -> IMAdVideoInterstitial
+  @objc public func load(zoneId: Swift.String, adLoadCallback: any AdLoadCallback, videoInterstitialAdLoadCallback: any VideoInterstitialAdLoadCallback)
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension ClickTagMode : Swift.Equatable {}
+extension ClickTagMode : Swift.Hashable {}
+extension ClickTagMode : Swift.RawRepresentable {}
