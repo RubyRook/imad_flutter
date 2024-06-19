@@ -1,7 +1,3 @@
-# imad_flutter
-
-Flutter plugin for integrating IMAd SDK
-
 ## Getting Started
 
 This project is a starting point for a Flutter
